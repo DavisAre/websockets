@@ -39,14 +39,14 @@ export const Chat = () => {
           <div className='p-3 my-2 border-gray-600 border' key={index}>{message}</div>
         ))}
       </div>
-      <div>
+      <div className='flex space-x-3'>
         <input
           type="text"
           className='border border-gray-600'
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
         />
-        <button onClick={handleSendMessage}>Send</button>
+        <button className='border border-gray-600' onClick={handleSendMessage}>Send</button>
       </div>
     </div>
   );
