@@ -1,10 +1,11 @@
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import './App.css';
 // import { io, Socket } from 'socket.io-client';
 import { SocketContext } from "./context/SocketContext";
+import { Chat } from "./components/Chat";
 
 function App() {
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
   const socket = useContext(SocketContext);
 
 
@@ -17,21 +18,10 @@ function App() {
     }
   }, [socket]);
 
-  const emitClientEvent = () => {
-    if (socket) {
-      // Emit a custom event to the server
-      socket.emit('clientEvent', { message: 'Hello from the client!' });
-    }
-  };
-
   return (
     <>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR...
-        </p>
-        <button onClick={emitClientEvent}>Send Data to Server</button>
+      <div className="wrapper w-full">
+        <Chat />
       </div>
     </>
   );
