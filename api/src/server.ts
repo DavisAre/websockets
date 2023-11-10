@@ -21,12 +21,21 @@ app.get('/', (req: Request, res: Response) => {
 
 // Store connected clients in an array
 const connectedClients: Socket[] = [];
+const chatMessages: string[] = []; // Array to store chat messages
 
 io.on('connection', (socket: Socket) => {
   console.log('A user connected');
 
   // Add the connected socket to the array
   connectedClients.push(socket);
+
+  // Emit chat messages to the newly connected client
+  socket.emit('initialChatMessages', chatMessages);
+
+  socket.on('requestInitialMessages', () => {
+    // Send the initial chat messages to the requesting client
+    socket.emit('initialChatMessages', chatMessages);
+  });
 
   // Handle custom socket events here
   socket.on('disconnect', () => {
@@ -46,6 +55,9 @@ io.on('connection', (socket: Socket) => {
   // Handle chat messages
   socket.on('sendMessage', (message: string) => {
     console.log('Received chat message:', message);
+
+    // Store the message in the array
+    chatMessages.push(message);
 
     // Broadcast the message to all connected clients
     io.emit('chatMessage', message);

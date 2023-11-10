@@ -12,7 +12,15 @@ export const Chat = () => {
       socket.on('chatMessage', (message: string) => {
         setMessages((prevMessages) => [...prevMessages, message]);
       });
+
+      // Listen for initial chat messages when connected
+      socket.on('initialChatMessages', (initialMessages: string[]) => {
+        console.log('initialChatMessages', initialMessages)
+        setMessages(initialMessages);
+      });
+      socket.emit('requestInitialMessages');
     }
+
   }, [socket]);
 
   const handleSendMessage = () => {
@@ -28,7 +36,7 @@ export const Chat = () => {
       <h3 className='font-bold'>Messages:</h3>
       <div>
         {messages.map((message, index) => (
-          <div className='p-3 m-2 border-gray-600 border' key={index}>{message}</div>
+          <div className='p-3 my-2 border-gray-600 border' key={index}>{message}</div>
         ))}
       </div>
       <div>
@@ -42,4 +50,4 @@ export const Chat = () => {
       </div>
     </div>
   );
-}
+};
