@@ -32,6 +32,22 @@ io.on('connection', (socket: Socket) => {
   // Emit chat messages to the newly connected client
   socket.emit('initialChatMessages', chatMessages);
 
+  // Emit drawing events to the newly connected client
+  socket.on('drawing:start', (data) => {
+    // Broadcast the drawing start event to all connected clients except the sender
+    socket.broadcast.emit('drawing:start', data);
+  });
+
+  socket.on('drawing:draw', (data) => {
+    // Broadcast the drawing draw event to all connected clients except the sender
+    socket.broadcast.emit('drawing:draw', data);
+  });
+
+  socket.on('drawing:end', () => {
+    // Broadcast the drawing end event to all connected clients except the sender
+    socket.broadcast.emit('drawing:end');
+  });
+
   socket.on('requestInitialMessages', () => {
     // Send the initial chat messages to the requesting client
     socket.emit('initialChatMessages', chatMessages);
