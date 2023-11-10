@@ -14,7 +14,7 @@ export const Canvas: React.FC = () => {
       canvas.height = window.innerHeight * 0.8;
       const context = canvas.getContext('2d');
       if (context) {
-        context.strokeStyle = 'black';
+        context.strokeStyle = '#5b37bf';
         context.lineWidth = 2;
         contextRef.current = context;
       }
@@ -55,6 +55,7 @@ export const Canvas: React.FC = () => {
       // Emit drawing end to the server
       socket.emit('drawing:end');
       setIsDrawing(false);
+      console.log(contextRef.current)
     }
   };
 
