@@ -1,31 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import './App.css';
-import { io, Socket } from 'socket.io-client';
+// import { io, Socket } from 'socket.io-client';
+import { SocketContext } from "./context/SocketContext";
 
 function App() {
   const [count, setCount] = useState(0);
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const socket = useContext(SocketContext);
 
-  useEffect(() => {
-    // Establish a connection to the Socket.io server
-    const socket = io('http://localhost:3000'); // Replace with your server URL
-
-    socket.on('connect', () => {
-      console.log('Connected to the server');
-      setSocket(socket);
-    });
-
-    socket.on('disconnect', () => {
-      console.log('Disconnected from the server');
-    });
-
-    // Clean up the socket connection when the component unmounts
-    return () => {
-      if (socket) {
-        socket.disconnect();
-      }
-    };
-  }, []);
 
   useEffect(() => {
     if (socket) {
