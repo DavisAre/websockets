@@ -24,7 +24,11 @@ export const Canvas: React.FC = () => {
   const startDrawing = ({ nativeEvent }: React.MouseEvent<HTMLCanvasElement>) => {
     if (contextRef.current && socket) {
       const { offsetX, offsetY } = nativeEvent;
-      contextRef.current.beginPath();
+
+      if (!isDrawing) {
+        contextRef.current.beginPath();
+      }
+
       contextRef.current.moveTo(offsetX, offsetY);
 
       // Emit drawing start to the server
@@ -45,7 +49,7 @@ export const Canvas: React.FC = () => {
   };
 
   const endDrawing = () => {
-    if (contextRef.current && socket) {
+    if (contextRef.current && socket && isDrawing) {
       contextRef.current.closePath();
 
       // Emit drawing end to the server
@@ -75,4 +79,3 @@ export const Canvas: React.FC = () => {
     />
   );
 };
-
